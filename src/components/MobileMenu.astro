@@ -1,0 +1,43 @@
+---
+const { lang, translations, getLocalizedUrl, pathWithoutLang } = Astro.props;
+---
+
+<div id="mobileMenu" class="fixed inset-0 bg-primary/95 z-50 transform translate-x-full transition-transform duration-300">
+  <div class="container mx-auto px-8 py-6">
+    <div class="flex justify-between items-center mb-12">
+      <img src="/logo.svg" alt="Bayfront" class="h-8" />
+      <button id="closeMenu" class="text-white hover:text-accent">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <nav class="flex flex-col space-y-8 text-center">
+      <a href={getLocalizedUrl(lang, '')} class="text-white hover:text-accent text-2xl tracking-wider">{translations.home}</a>
+      <a href={getLocalizedUrl(lang, 'project')} class="text-white hover:text-accent text-2xl tracking-wider">{translations.project}</a>
+      <a href={getLocalizedUrl(lang, 'about')} class="text-white hover:text-accent text-2xl tracking-wider">{translations.about}</a>
+      <a href={getLocalizedUrl(lang, 'contact')} class="text-white hover:text-accent text-2xl tracking-wider">{translations.contact}</a>
+      <div class="flex justify-center space-x-8 pt-8">
+        <a href={getLocalizedUrl('en', pathWithoutLang)} class={`text-white hover:text-accent ${lang === 'en' ? 'text-accent' : ''}`}>EN</a>
+        <a href={getLocalizedUrl('ja', pathWithoutLang)} class={`text-white hover:text-accent ${lang === 'ja' ? 'text-accent' : ''}`}>JP</a>
+        <a href={getLocalizedUrl('zh', pathWithoutLang)} class={`text-white hover:text-accent ${lang === 'zh' ? 'text-accent' : ''}`}>中</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<script>
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuButton = document.getElementById('menuButton');
+  const closeButton = document.getElementById('closeMenu');
+
+  menuButton?.addEventListener('click', () => {
+    mobileMenu?.classList.remove('translate-x-full');
+    document.body.style.overflow = 'hidden';
+  });
+
+  closeButton?.addEventListener('click', () => {
+    mobileMenu?.classList.add('translate-x-full');
+    document.body.style.overflow = '';
+  });
+</script> 
