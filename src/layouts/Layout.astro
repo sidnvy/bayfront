@@ -19,19 +19,22 @@ const translations = {
     home: "HOME",
     project: "BUSINESS",
     about: "ABOUT",
-    contact: "CONTACT"
+    contact: "CONTACT",
+    property: "PROPERTY"
   },
   ja: {
     home: "ホーム",
     project: "事業内容",
     about: "会社概要",
-    contact: "お問い合わせ"
+    contact: "お問い合わせ",
+    property: "物件情報"
   },
   zh: {
     home: "首页",
     project: "服务范围",
     about: "关于我们",
-    contact: "联系我们"
+    contact: "联系我们",
+    property: "不动产信息"
   }
 };
 
@@ -98,6 +101,7 @@ const getLocalizedUrl = (targetLang: string, path: string) => {
           <div class="hidden md:flex items-center">
             <div class="flex space-x-16">
               <a href={getLocalizedUrl(lang, '')} class={`nav-link text-white hover:text-white tracking-wider ${isCurrentPage(getLocalizedUrl(lang, '')) ? 'active' : ''}`}>{t.home}</a>
+              <a href={getLocalizedUrl(lang, 'property')} class={`nav-link text-white hover:text-white tracking-wider ${isCurrentPage(getLocalizedUrl(lang, 'property')) ? 'active' : ''}`}>{t.property}</a>
               <a href={getLocalizedUrl(lang, 'business')} class={`nav-link text-white hover:text-white tracking-wider ${isCurrentPage(getLocalizedUrl(lang, 'business')) ? 'active' : ''}`}>{t.project}</a>
               <a href={getLocalizedUrl(lang, 'about')} class={`nav-link text-white hover:text-white tracking-wider ${isCurrentPage(getLocalizedUrl(lang, 'about')) ? 'active' : ''}`}>{t.about}</a>
               <a href={getLocalizedUrl(lang, 'contact')} class={`nav-link text-white hover:text-white tracking-wider ${isCurrentPage(getLocalizedUrl(lang, 'contact')) ? 'active' : ''}`}>{t.contact}</a>
