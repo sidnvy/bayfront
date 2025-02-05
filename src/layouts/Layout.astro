@@ -20,21 +20,30 @@ const translations = {
     project: "BUSINESS",
     about: "ABOUT",
     contact: "CONTACT",
-    property: "PROPERTY"
+    property: "PROPERTY",
+    lang_en: "EN",
+    lang_ja: "JA",
+    lang_zh: "CN"
   },
   ja: {
     home: "ホーム",
     project: "事業内容",
     about: "会社概要",
     contact: "お問い合わせ",
-    property: "物件情報"
+    property: "物件情報",
+    lang_en: "英",
+    lang_ja: "日",
+    lang_zh: "中"
   },
   zh: {
     home: "首页",
     project: "服务范围",
     about: "关于我们",
     contact: "联系我们",
-    property: "不动产信息"
+    property: "不动产信息",
+    lang_en: "英",
+    lang_ja: "日",
+    lang_zh: "中"
   }
 };
 
@@ -101,15 +110,14 @@ const getLocalizedUrl = (targetLang: string, path: string) => {
           <div class="hidden md:flex items-center">
             <div class="flex space-x-16">
               <a href={getLocalizedUrl(lang, '')} class={`nav-link text-white hover:text-white tracking-wider ${isCurrentPage(getLocalizedUrl(lang, '')) ? 'active' : ''}`}>{t.home}</a>
-              <a href={getLocalizedUrl(lang, 'property')} class={`nav-link text-white hover:text-white tracking-wider ${isCurrentPage(getLocalizedUrl(lang, 'property')) ? 'active' : ''}`}>{t.property}</a>
               <a href={getLocalizedUrl(lang, 'business')} class={`nav-link text-white hover:text-white tracking-wider ${isCurrentPage(getLocalizedUrl(lang, 'business')) ? 'active' : ''}`}>{t.project}</a>
               <a href={getLocalizedUrl(lang, 'about')} class={`nav-link text-white hover:text-white tracking-wider ${isCurrentPage(getLocalizedUrl(lang, 'about')) ? 'active' : ''}`}>{t.about}</a>
               <a href={getLocalizedUrl(lang, 'contact')} class={`nav-link text-white hover:text-white tracking-wider ${isCurrentPage(getLocalizedUrl(lang, 'contact')) ? 'active' : ''}`}>{t.contact}</a>
             </div>
             <div class="flex space-x-6 ml-16">
-              <a href={getLocalizedUrl('en', pathWithoutLang)} class={`text-white hover:text-accent ${lang === 'en' ? 'text-accent' : ''}`}>EN</a>
-              <a href={getLocalizedUrl('ja', pathWithoutLang)} class={`text-white hover:text-accent ${lang === 'ja' ? 'text-accent' : ''}`}>JP</a>
-              <a href={getLocalizedUrl('zh', pathWithoutLang)} class={`text-white hover:text-accent ${lang === 'zh' ? 'text-accent' : ''}`}>中</a>
+              <a href={getLocalizedUrl('en', pathWithoutLang)} class={`text-white hover:text-accent ${lang === 'en' ? 'text-accent' : ''}`}>{t.lang_en}</a>
+              <a href={getLocalizedUrl('ja', pathWithoutLang)} class={`text-white hover:text-accent ${lang === 'ja' ? 'text-accent' : ''}`}>{t.lang_ja}</a>
+              <a href={getLocalizedUrl('zh', pathWithoutLang)} class={`text-white hover:text-accent ${lang === 'zh' ? 'text-accent' : ''}`}>{t.lang_zh}</a>
             </div>
           </div>
           <button id="menuButton" class="md:hidden text-white hover:text-accent">
@@ -132,7 +140,7 @@ const getLocalizedUrl = (targetLang: string, path: string) => {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <img src="/logo-symbol.svg" alt="Bayfront" class="h-6 mb-4" style="filter: invert(83%) sepia(19%) saturate(638%) hue-rotate(358deg) brightness(89%) contrast(84%);" />
-            <p class="text-sm text-accent">営業時間/Business Hours: 9:00～18:00（定休）</p>
+            <p class="text-sm text-accent">営業時間/Business Hours: 9:00～18:00（土日祝定休日）</p>
           </div>
           <div>
             <address class="not-italic text-sm">

@@ -10,64 +10,28 @@ import Layout from '../../layouts/Layout.astro';
   </section>
 
   <section class="pb-24 bg-primary">
-    <div class="container mx-auto px-8">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+    <div class="container mx-auto px-8 max-w-2xl">
+      <form class="space-y-6">
         <div>
-          <h2 class="text-2xl text-white font-light tracking-wider mb-8">联系表单</h2>
-          <form class="space-y-6">
-            <div>
-              <label for="name" class="block text-sm text-gray-200 mb-2">姓名</label>
-              <input type="text" id="name" name="name" class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white rounded focus:outline-none focus:border-accent" required>
-            </div>
-            <div>
-              <label for="email" class="block text-sm text-gray-200 mb-2">电子邮箱</label>
-              <input type="email" id="email" name="email" class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white rounded focus:outline-none focus:border-accent" required>
-            </div>
-            <div>
-              <label for="phone" class="block text-sm text-gray-200 mb-2">电话号码</label>
-              <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white rounded focus:outline-none focus:border-accent">
-            </div>
-            <div>
-              <label for="message" class="block text-sm text-gray-200 mb-2">留言内容</label>
-              <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white rounded focus:outline-none focus:border-accent" required></textarea>
-            </div>
-            <button type="submit" class="w-full px-8 py-3 bg-accent text-white font-light tracking-wider hover:bg-accent/80 transition-colors duration-300">
-              发送信息
-            </button>
-          </form>
-
-          <div class="mt-12 space-y-6 text-gray-200">
-            <div>
-              <h3 class="text-accent mb-2">地址</h3>
-              <p>〒 542-0081</p>
-              <p>大阪市中央区南船场1-3-10</p>
-              <p>サンライズ長堀 1106室</p>
-            </div>
-            <div>
-              <h3 class="text-accent mb-2">联系方式</h3>
-              <p>Tel/Fax：06-7654-8667</p>
-              <p>E-mail：bayfront@ibayfront.com</p>
-              <p>Web：www.ibayfront.com</p>
-            </div>
-            <div>
-              <h3 class="text-accent mb-2">营业时间</h3>
-              <p>9:00～18:00（定休）</p>
-            </div>
-          </div>
+          <label for="name" class="block text-sm text-gray-200 mb-2">姓名</label>
+          <input type="text" id="name" name="name" class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white rounded focus:outline-none focus:border-accent" required>
         </div>
-
-        <div class="h-[600px] bg-white/10 rounded-lg overflow-hidden">
-          <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3281.3776317580483!2d135.49862847677547!3d34.67674657292454!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6000e71a5b1f5555%3A0x5df1d713625c164e!2z44CSNTQyLTAwODEg5aSn6Ziq5bqc5aSn6Ziq5biC5Lit5aSu5Yy65Y2X6Ii55aC077yR5LiB55uu77yT4oiS77yR77yQ!5e0!3m2!1sja!2sjp!4v1708500844048!5m2!1sja!2sjp" 
-            width="100%" 
-            height="100%" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
+        <div>
+          <label for="email" class="block text-sm text-gray-200 mb-2">电子邮箱</label>
+          <input type="email" id="email" name="email" class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white rounded focus:outline-none focus:border-accent" required>
         </div>
-      </div>
+        <div>
+          <label for="phone" class="block text-sm text-gray-200 mb-2">电话号码</label>
+          <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white rounded focus:outline-none focus:border-accent">
+        </div>
+        <div>
+          <label for="message" class="block text-sm text-gray-200 mb-2">留言内容</label>
+          <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white rounded focus:outline-none focus:border-accent" required></textarea>
+        </div>
+        <button type="submit" class="w-full px-8 py-3 bg-accent text-white font-light tracking-wider hover:bg-accent/80 transition-colors duration-300">
+          发送信息
+        </button>
+      </form>
     </div>
   </section>
 </Layout> 
