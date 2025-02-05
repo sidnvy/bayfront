@@ -3,35 +3,54 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="联系我们 - BAYFRONT" lang="zh">
-  <section class="pt-32 pb-20">
+  <section class="pt-20 pb-12">
     <div class="container mx-auto px-8">
-      <h1 class="text-4xl md:text-6xl text-white font-light tracking-wider mb-16">联系我们</h1>
+      <h1 class="text-4xl md:text-6xl text-white font-light tracking-wider mb-8">联系我们</h1>
     </div>
   </section>
 
   <section class="pb-24 bg-primary">
-    <div class="container mx-auto px-8 max-w-2xl">
-      <form class="space-y-6">
+    <div class="container mx-auto px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
         <div>
-          <label for="name" class="block text-sm text-gray-200 mb-2">姓名</label>
-          <input type="text" id="name" name="name" class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white rounded focus:outline-none focus:border-accent" required>
+          <form class="space-y-4">
+            <div class="grid grid-cols-2 gap-6">
+              <div>
+                <label for="name" class="block text-white mb-1">姓名</label>
+                <input type="text" id="name" name="name" class="w-full px-4 py-2 bg-transparent border-b border-white/30 text-white focus:outline-none focus:border-accent transition-colors" required>
+              </div>
+              <div>
+                <label for="email" class="block text-white mb-1">电子邮箱</label>
+                <input type="email" id="email" name="email" class="w-full px-4 py-2 bg-transparent border-b border-white/30 text-white focus:outline-none focus:border-accent transition-colors" required>
+              </div>
+            </div>
+            <div>
+              <label for="phone" class="block text-white mb-1">电话号码</label>
+              <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 bg-transparent border-b border-white/30 text-white focus:outline-none focus:border-accent transition-colors">
+            </div>
+            <div>
+              <label for="message" class="block text-white mb-1">留言内容</label>
+              <textarea id="message" name="message" rows="2" class="w-full px-4 py-2 bg-transparent border-b border-white/30 text-white focus:outline-none focus:border-accent transition-colors resize-none" required></textarea>
+            </div>
+            <button type="submit" class="w-full py-2 bg-accent text-white font-light tracking-wider hover:bg-accent/80 transition-colors">
+              发送信息
+            </button>
+          </form>
         </div>
+
         <div>
-          <label for="email" class="block text-sm text-gray-200 mb-2">电子邮箱</label>
-          <input type="email" id="email" name="email" class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white rounded focus:outline-none focus:border-accent" required>
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3281.3767172579527!2d135.4993!3d34.6759!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6000e737837da92b%3A0x3e464c6b8d48dd21!2z44K144Oz44Op44Kk44K66ZW35aCA!5e0!3m2!1sja!2sjp!4v1707799611799!5m2!1sja!2sjp" 
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            class="w-full h-[400px]"
+          ></iframe>
         </div>
-        <div>
-          <label for="phone" class="block text-sm text-gray-200 mb-2">电话号码</label>
-          <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white rounded focus:outline-none focus:border-accent">
-        </div>
-        <div>
-          <label for="message" class="block text-sm text-gray-200 mb-2">留言内容</label>
-          <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white rounded focus:outline-none focus:border-accent" required></textarea>
-        </div>
-        <button type="submit" class="w-full px-8 py-3 bg-accent text-white font-light tracking-wider hover:bg-accent/80 transition-colors duration-300">
-          发送信息
-        </button>
-      </form>
+      </div>
     </div>
   </section>
 </Layout> 
