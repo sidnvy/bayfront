@@ -1,0 +1,200 @@
+---
+interface Props {
+  labels: {
+    name: string;
+    email: string;
+    phone: string;
+    message: string;
+    submit: string;
+    sending: string;
+    success: string;
+    error: string;
+    validation: {
+      required: string;
+      email: string;
+    };
+  };
+}
+
+const { labels } = Astro.props;
+---
+
+<form id="contactForm" class="space-y-4" novalidate>
+  <div class="grid grid-cols-2 gap-6">
+    <div>
+      <label for="name" class="block text-white mb-1">{labels.name}</label>
+      <input 
+        type="text" 
+        id="name" 
+        name="name" 
+        class="w-full px-4 py-2 bg-transparent border-b border-white/30 text-white focus:outline-none focus:border-accent transition-colors" 
+        required
+        data-error={labels.validation.required}
+      >
+      <div class="text-red-400 text-sm mt-1 hidden"></div>
+    </div>
+    <div>
+      <label for="email" class="block text-white mb-1">{labels.email}</label>
+      <input 
+        type="email" 
+        id="email" 
+        name="email" 
+        class="w-full px-4 py-2 bg-transparent border-b border-white/30 text-white focus:outline-none focus:border-accent transition-colors" 
+        required
+        data-error={labels.validation.required}
+        data-error-email={labels.validation.email}
+      >
+      <div class="text-red-400 text-sm mt-1 hidden"></div>
+    </div>
+  </div>
+  <div>
+    <label for="phone" class="block text-white mb-1">{labels.phone}</label>
+    <input 
+      type="tel" 
+      id="phone" 
+      name="phone" 
+      class="w-full px-4 py-2 bg-transparent border-b border-white/30 text-white focus:outline-none focus:border-accent transition-colors"
+    >
+  </div>
+  <div>
+    <label for="message" class="block text-white mb-1">{labels.message}</label>
+    <textarea 
+      id="message" 
+      name="message" 
+      rows="2" 
+      class="w-full px-4 py-2 bg-transparent border-b border-white/30 text-white focus:outline-none focus:border-accent transition-colors resize-none" 
+      required
+      data-error={labels.validation.required}
+    ></textarea>
+    <div class="text-red-400 text-sm mt-1 hidden"></div>
+  </div>
+  <button type="submit" class="w-full py-2 bg-accent text-white font-light tracking-wider hover:bg-accent/80 transition-colors relative">
+    <span class="submit-text">{labels.submit}</span>
+    <span class="loading-text hidden">
+      {labels.sending}
+    </span>
+  </button>
+  <div id="successMessage" class="hidden text-green-400 text-center mt-4">
+    {labels.success}
+  </div>
+  <div id="errorMessage" class="hidden text-red-400 text-center mt-4">
+    {labels.error}
+  </div>
+</form>
+
+<script>
+  const form = document.getElementById('contactForm') as HTMLFormElement;
+  const submitText = form.querySelector('.submit-text') as HTMLElement;
+  const loadingText = form.querySelector('.loading-text') as HTMLElement;
+  const successMessage = document.getElementById('successMessage') as HTMLElement;
+  const errorMessage = document.getElementById('errorMessage') as HTMLElement;
+
+  // Add validation message display
+  const showInputError = (input: HTMLInputElement | HTMLTextAreaElement, message: string) => {
+    const errorDiv = input.nextElementSibling as HTMLDivElement;
+    errorDiv.textContent = message;
+    errorDiv.classList.remove('hidden');
+    input.classList.add('border-red-400');
+  };
+
+  const hideInputError = (input: HTMLInputElement | HTMLTextAreaElement) => {
+    const errorDiv = input.nextElementSibling as HTMLDivElement;
+    errorDiv.classList.add('hidden');
+    input.classList.remove('border-red-400');
+  };
+
+  // Validate email format
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  // Add input validation
+  form.querySelectorAll('input, textarea').forEach((input) => {
+    const element = input as HTMLInputElement | HTMLTextAreaElement;
+    
+    element.addEventListener('input', () => {
+      hideInputError(element);
+    });
+
+    element.addEventListener('blur', () => {
+      if (element.required && !element.value) {
+        showInputError(element, element.dataset.error || '');
+      } else if (element.type === 'email' && element.value && !isValidEmail(element.value)) {
+        showInputError(element, element.dataset.errorEmail || '');
+      }
+    });
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Reset all errors
+    form.querySelectorAll('input, textarea').forEach((input) => {
+      const element = input as HTMLInputElement | HTMLTextAreaElement;
+      hideInputError(element);
+    });
+
+    // Validate all fields
+    let hasErrors = false;
+    form.querySelectorAll('input, textarea').forEach((input) => {
+      const element = input as HTMLInputElement | HTMLTextAreaElement;
+      if (element.required && !element.value) {
+        showInputError(element, element.dataset.error || '');
+        hasErrors = true;
+      } else if (element.type === 'email' && element.value && !isValidEmail(element.value)) {
+        showInputError(element, element.dataset.errorEmail || '');
+        hasErrors = true;
+      }
+    });
+
+    if (hasErrors) {
+      return;
+    }
+
+    // Reset messages
+    successMessage.classList.add('hidden');
+    errorMessage.classList.add('hidden');
+
+    // Show loading state
+    submitText.classList.add('hidden');
+    loadingText.classList.remove('hidden');
+
+    // Get form data
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      // Use the full URL in development, relative path in production
+      const apiUrl = import.meta.env.DEV 
+        ? `${window.location.origin}/api/send-email`
+        : '/api/send-email';
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Show success message
+        successMessage.classList.remove('hidden');
+        form.reset();
+      } else {
+        // Show error message from API
+        errorMessage.textContent = result.error || errorMessage.textContent;
+        errorMessage.classList.remove('hidden');
+      }
+    } catch (error) {
+      // Show generic error message
+      errorMessage.classList.remove('hidden');
+    } finally {
+      // Reset button state
+      submitText.classList.remove('hidden');
+      loadingText.classList.add('hidden');
+    }
+  });
+</script> 
