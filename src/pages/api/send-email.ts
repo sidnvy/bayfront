@@ -118,7 +118,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     }
 
     const { data: emailData, error } = await resend.emails.send({
-      from: 'Bayfront Website <onboarding@resend.dev>',
+      from: 'Bayfront Website <bayfront@ibayfront.com>',
       to: ['bayfront@ibayfront.com'],
       subject: `新联系表格提交 - ${name}`,
       html: `
