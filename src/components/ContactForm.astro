@@ -83,118 +83,132 @@ const { labels } = Astro.props;
 </form>
 
 <script>
-  const form = document.getElementById('contactForm') as HTMLFormElement;
-  const submitText = form.querySelector('.submit-text') as HTMLElement;
-  const loadingText = form.querySelector('.loading-text') as HTMLElement;
-  const successMessage = document.getElementById('successMessage') as HTMLElement;
-  const errorMessage = document.getElementById('errorMessage') as HTMLElement;
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('contactForm') as HTMLFormElement;
+    if (!form) return;
 
-  // Add validation message display
-  const showInputError = (input: HTMLInputElement | HTMLTextAreaElement, message: string) => {
-    const errorDiv = input.nextElementSibling as HTMLDivElement;
-    errorDiv.textContent = message;
-    errorDiv.classList.remove('hidden');
-    input.classList.add('border-red-400');
-  };
+    const submitText = form.querySelector('.submit-text');
+    const loadingText = form.querySelector('.loading-text');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
 
-  const hideInputError = (input: HTMLInputElement | HTMLTextAreaElement) => {
-    const errorDiv = input.nextElementSibling as HTMLDivElement;
-    errorDiv.classList.add('hidden');
-    input.classList.remove('border-red-400');
-  };
+    if (!submitText || !loadingText || !successMessage || !errorMessage) return;
 
-  // Validate email format
-  const isValidEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
+    // Add validation message display
+    const showInputError = (input: HTMLInputElement | HTMLTextAreaElement, message: string) => {
+      const errorDiv = input.nextElementSibling as HTMLDivElement | null;
+      if (!errorDiv) return;
+      
+      errorDiv.textContent = message;
+      errorDiv.classList.remove('hidden');
+      input.classList.add('border-red-400');
+    };
 
-  // Add input validation
-  form.querySelectorAll('input, textarea').forEach((input) => {
-    const element = input as HTMLInputElement | HTMLTextAreaElement;
-    
-    element.addEventListener('input', () => {
-      hideInputError(element);
-    });
+    const hideInputError = (input: HTMLInputElement | HTMLTextAreaElement) => {
+      const errorDiv = input.nextElementSibling as HTMLDivElement | null;
+      if (!errorDiv) return;
+      
+      errorDiv.classList.add('hidden');
+      input.classList.remove('border-red-400');
+    };
 
-    element.addEventListener('blur', () => {
-      if (element.required && !element.value) {
-        showInputError(element, element.dataset.error || '');
-      } else if (element.type === 'email' && element.value && !isValidEmail(element.value)) {
-        showInputError(element, element.dataset.errorEmail || '');
-      }
-    });
-  });
+    // Validate email format
+    const isValidEmail = (email: string) => {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    // Reset all errors
+    // Add input validation
     form.querySelectorAll('input, textarea').forEach((input) => {
+      if (!(input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement)) return;
+      
       const element = input as HTMLInputElement | HTMLTextAreaElement;
-      hideInputError(element);
-    });
-
-    // Validate all fields
-    let hasErrors = false;
-    form.querySelectorAll('input, textarea').forEach((input) => {
-      const element = input as HTMLInputElement | HTMLTextAreaElement;
-      if (element.required && !element.value) {
-        showInputError(element, element.dataset.error || '');
-        hasErrors = true;
-      } else if (element.type === 'email' && element.value && !isValidEmail(element.value)) {
-        showInputError(element, element.dataset.errorEmail || '');
-        hasErrors = true;
-      }
-    });
-
-    if (hasErrors) {
-      return;
-    }
-
-    // Reset messages
-    successMessage.classList.add('hidden');
-    errorMessage.classList.add('hidden');
-
-    // Show loading state
-    submitText.classList.add('hidden');
-    loadingText.classList.remove('hidden');
-
-    // Get form data
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
-    try {
-      // Use the full URL in development, relative path in production
-      const apiUrl = import.meta.env.DEV 
-        ? `${window.location.origin}/api/send-email`
-        : '/api/send-email';
-
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+      
+      element.addEventListener('input', () => {
+        hideInputError(element);
       });
 
-      const result = await response.json();
+      element.addEventListener('blur', () => {
+        if (element.required && !element.value) {
+          showInputError(element, element.dataset.error || '');
+        } else if (element.type === 'email' && element.value && !isValidEmail(element.value)) {
+          showInputError(element, element.dataset.errorEmail || '');
+        }
+      });
+    });
 
-      if (response.ok) {
-        // Show success message
-        successMessage.classList.remove('hidden');
-        form.reset();
-      } else {
-        // Show error message from API
-        errorMessage.textContent = result.error || errorMessage.textContent;
-        errorMessage.classList.remove('hidden');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Reset all errors
+      form.querySelectorAll('input, textarea').forEach((input) => {
+        if (!(input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement)) return;
+        const element = input as HTMLInputElement | HTMLTextAreaElement;
+        hideInputError(element);
+      });
+
+      // Validate all fields
+      let hasErrors = false;
+      form.querySelectorAll('input, textarea').forEach((input) => {
+        if (!(input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement)) return;
+        const element = input as HTMLInputElement | HTMLTextAreaElement;
+        if (element.required && !element.value) {
+          showInputError(element, element.dataset.error || '');
+          hasErrors = true;
+        } else if (element.type === 'email' && element.value && !isValidEmail(element.value)) {
+          showInputError(element, element.dataset.errorEmail || '');
+          hasErrors = true;
+        }
+      });
+
+      if (hasErrors) {
+        return;
       }
-    } catch (error) {
-      // Show generic error message
-      errorMessage.classList.remove('hidden');
-    } finally {
-      // Reset button state
-      submitText.classList.remove('hidden');
-      loadingText.classList.add('hidden');
-    }
+
+      // Reset messages
+      successMessage.classList.add('hidden');
+      errorMessage.classList.add('hidden');
+
+      // Show loading state
+      submitText.classList.add('hidden');
+      loadingText.classList.remove('hidden');
+
+      // Get form data
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        // Use the full URL in development, relative path in production
+        const apiUrl = import.meta.env.DEV 
+          ? `${window.location.origin}/api/send-email`
+          : '/api/send-email';
+
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          // Show success message
+          successMessage.classList.remove('hidden');
+          form.reset();
+        } else {
+          // Show error message from API
+          errorMessage.textContent = result.error || errorMessage.textContent;
+          errorMessage.classList.remove('hidden');
+        }
+      } catch (error) {
+        // Show generic error message
+        errorMessage.classList.remove('hidden');
+      } finally {
+        // Reset button state
+        submitText.classList.remove('hidden');
+        loadingText.classList.add('hidden');
+      }
+    });
   });
 </script> 
