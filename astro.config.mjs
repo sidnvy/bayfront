@@ -9,7 +9,7 @@ export default defineConfig({
     sitemap(),
   ],
   i18n: {
-    defaultLocale: 'en',
+    defaultLocale: 'ja',
     locales: ['en', 'ja', 'zh'],
     routing: {
       prefixDefaultLocale: false
