@@ -23,14 +23,16 @@ export const POST: APIRoute = async ({ request }) => {
       from: 'Bayfront Website <onboarding@resend.dev>',
       // to: ['bayfront@ibayfront.com'],  // Replace with your email
       to: ['sidnvy@gmail.com'],  // Replace with your email
-      subject: `New Contact Form Submission from ${name}`,
+      subject: `新联系表格提交 - ${name}`,
       html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
-        <p><strong>Message:</strong></p>
+        <h2>新联系表格提交</h2>
+        <p><strong>姓名：</strong> ${name}</p>
+        <p><strong>电子邮箱：</strong> ${email}</p>
+        <p><strong>电话号码：</strong> ${phone || '未提供'}</p>
+        <p><strong>留言内容：</strong></p>
         <p>${message}</p>
+        <br>
+        <p style="color: #666; font-size: 12px;">此邮件由Bayfront网站的联系表格自动发送。</p>
       `,
     });
 
