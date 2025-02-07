@@ -1,7 +1,6 @@
 ---
 import MobileMenu from '../components/MobileMenu.astro';
 import { getRelativeLocaleUrl } from 'astro:i18n';
-import SpeedInsights from "@vercel/speed-insights/astro";
 
 interface Props {
   title: string;
@@ -76,11 +75,6 @@ const getLocalizedUrl = (targetLang: string, path: string) => {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <script is:inline>
-      function speedInsightsBeforeSend(data) {
-        return data;
-      }
-    </script>
     <style>
       body {
         font-family: 'Montserrat', sans-serif;
@@ -159,6 +153,5 @@ const getLocalizedUrl = (targetLang: string, path: string) => {
         </div>
       </div>
     </footer>
-    <SpeedInsights />
   </body>
 </html> 
