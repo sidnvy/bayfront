@@ -87,7 +87,12 @@ import Layout from '../../layouts/Layout.astro';
     const data = Object.fromEntries(formData.entries());
 
     try {
-      const response = await fetch('/api/send-email', {
+      // Use the full URL in development, relative path in production
+      const apiUrl = import.meta.env.DEV 
+        ? `${window.location.origin}/api/send-email`
+        : '/api/send-email';
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -102,11 +107,13 @@ import Layout from '../../layouts/Layout.astro';
         successMessage.classList.remove('hidden');
         form.reset();
       } else {
-        // Show error message
+        // Show error message from API
+        errorMessage.textContent = result.error || 'An error occurred. Please try again.';
         errorMessage.classList.remove('hidden');
       }
     } catch (error) {
-      // Show error message
+      // Show generic error message
+      errorMessage.textContent = 'An error occurred. Please try again.';
       errorMessage.classList.remove('hidden');
     } finally {
       // Reset button state

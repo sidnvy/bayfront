@@ -18,7 +18,7 @@ const resend = new Resend(import.meta.env.RESEND_API_KEY);
 const rateLimit = new Map<string, { count: number; timestamp: number }>();
 
 // Rate limit settings
-const RATE_LIMIT = 2; // Maximum 2 emails
+const RATE_LIMIT = 3; // Maximum 3 emails
 const TIME_WINDOW = 3600000; // 1 hour in milliseconds
 
 // Error messages for different languages
@@ -118,8 +118,9 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     }
 
     const { data: emailData, error } = await resend.emails.send({
-      from: 'Bayfront Website <bayfront@ibayfront.com>',
-      to: ['bayfront@ibayfront.com'],
+      from: 'Bayfront Website <onboarding@resend.dev>',
+      // to: ['bayfront@ibayfront.com'],
+      to: ['sidnvy@gmail.com'],
       subject: `新联系表格提交 - ${name}`,
       html: `
         <h2>新联系表格提交</h2>

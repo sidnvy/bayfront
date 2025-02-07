@@ -107,14 +107,14 @@ import Layout from '../layouts/Layout.astro';
         successMessage.classList.remove('hidden');
         form.reset();
       } else {
-        // Show error message
+        // Show error message from API
+        errorMessage.textContent = result.error || 'エラーが発生しました。もう一度お試しください。';
         errorMessage.classList.remove('hidden');
-        console.error('Error:', result.error);
       }
     } catch (error) {
-      // Show error message
+      // Show generic error message
+      errorMessage.textContent = 'エラーが発生しました。もう一度お試しください。';
       errorMessage.classList.remove('hidden');
-      console.error('Error:', error);
     } finally {
       // Reset button state
       submitText.classList.remove('hidden');
