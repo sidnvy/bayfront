@@ -110,7 +110,6 @@ const getLocalizedUrl = (targetLang: string, path: string) => {
           <div class="hidden md:flex items-center">
             <div class="flex space-x-16">
               <a href={getLocalizedUrl(lang, '')} class={`nav-link text-white hover:text-white tracking-wider ${isCurrentPage(getLocalizedUrl(lang, '')) ? 'active' : ''}`}>{t.home}</a>
-              <a href={getLocalizedUrl(lang, 'business')} class={`nav-link text-white hover:text-white tracking-wider ${isCurrentPage(getLocalizedUrl(lang, 'business')) ? 'active' : ''}`}>{t.project}</a>
               <a href={getLocalizedUrl(lang, 'about')} class={`nav-link text-white hover:text-white tracking-wider ${isCurrentPage(getLocalizedUrl(lang, 'about')) ? 'active' : ''}`}>{t.about}</a>
               <a href={getLocalizedUrl(lang, 'contact')} class={`nav-link text-white hover:text-white tracking-wider ${isCurrentPage(getLocalizedUrl(lang, 'contact')) ? 'active' : ''}`}>{t.contact}</a>
             </div>
