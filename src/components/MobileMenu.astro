@@ -14,8 +14,7 @@ const { lang, translations, getLocalizedUrl, pathWithoutLang } = Astro.props;
     </div>
     <nav class="flex flex-col space-y-8 text-center">
       <a href={getLocalizedUrl(lang, '')} class="text-white hover:text-accent text-2xl tracking-wider">{translations.home}</a>
-      <a href={getLocalizedUrl(lang, 'property')} class="text-white hover:text-accent text-2xl tracking-wider">{translations.property}</a>
-      <a href={getLocalizedUrl(lang, 'project')} class="text-white hover:text-accent text-2xl tracking-wider">{translations.project}</a>
+      <a href={getLocalizedUrl(lang, 'business')} class="text-white hover:text-accent text-2xl tracking-wider">{translations.project}</a>
       <a href={getLocalizedUrl(lang, 'about')} class="text-white hover:text-accent text-2xl tracking-wider">{translations.about}</a>
       <a href={getLocalizedUrl(lang, 'contact')} class="text-white hover:text-accent text-2xl tracking-wider">{translations.contact}</a>
       <div class="flex justify-center space-x-8 pt-8">
