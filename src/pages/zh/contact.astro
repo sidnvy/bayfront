@@ -13,7 +13,7 @@ import Layout from '../../layouts/Layout.astro';
     <div class="container mx-auto px-8">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
         <div>
-          <form class="space-y-4">
+          <form id="contactForm" class="space-y-4">
             <div class="grid grid-cols-2 gap-6">
               <div>
                 <label for="name" class="block text-white mb-1">姓名</label>
@@ -32,9 +32,18 @@ import Layout from '../../layouts/Layout.astro';
               <label for="message" class="block text-white mb-1">留言内容</label>
               <textarea id="message" name="message" rows="2" class="w-full px-4 py-2 bg-transparent border-b border-white/30 text-white focus:outline-none focus:border-accent transition-colors resize-none" required></textarea>
             </div>
-            <button type="submit" class="w-full py-2 bg-accent text-white font-light tracking-wider hover:bg-accent/80 transition-colors">
-              发送信息
+            <button type="submit" class="w-full py-2 bg-accent text-white font-light tracking-wider hover:bg-accent/80 transition-colors relative">
+              <span class="submit-text">发送信息</span>
+              <span class="loading-text hidden">
+                发送中...
+              </span>
             </button>
+            <div id="successMessage" class="hidden text-green-400 text-center mt-4">
+              信息发送成功，谢谢。
+            </div>
+            <div id="errorMessage" class="hidden text-red-400 text-center mt-4">
+              发生错误，请重试。
+            </div>
           </form>
         </div>
 
@@ -53,4 +62,56 @@ import Layout from '../../layouts/Layout.astro';
       </div>
     </div>
   </section>
-</Layout> 
+</Layout>
+
+<script>
+  const form = document.getElementById('contactForm') as HTMLFormElement;
+  const submitText = form.querySelector('.submit-text') as HTMLElement;
+  const loadingText = form.querySelector('.loading-text') as HTMLElement;
+  const successMessage = document.getElementById('successMessage') as HTMLElement;
+  const errorMessage = document.getElementById('errorMessage') as HTMLElement;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Reset messages
+    successMessage.classList.add('hidden');
+    errorMessage.classList.add('hidden');
+
+    // Show loading state
+    submitText.classList.add('hidden');
+    loadingText.classList.remove('hidden');
+
+    // Get form data
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Show success message
+        successMessage.classList.remove('hidden');
+        form.reset();
+      } else {
+        // Show error message
+        errorMessage.classList.remove('hidden');
+      }
+    } catch (error) {
+      // Show error message
+      errorMessage.classList.remove('hidden');
+    } finally {
+      // Reset button state
+      submitText.classList.remove('hidden');
+      loadingText.classList.add('hidden');
+    }
+  });
+</script> 
